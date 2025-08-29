@@ -1,0 +1,14 @@
+services:
+  hydroxide:
+    image: ghcr.io/ksharizard/docker-hydroxide
+    container_name: hydroxide
+    ports:
+      - "8080:8080" # Web UI
+      - "1143:1143" # IMAP
+      - "1025:1025" # SMTP
+    volumes:
+      - hydroxide_config:/home/hydroxide/.config/hydroxide
+    restart: unless-stopped
+
+volumes:
+  hydroxide_config:
