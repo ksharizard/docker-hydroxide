@@ -5,9 +5,6 @@ RUN apk --update upgrade \
 && rm -rf /var/cache/apk
 RUN git clone --depth 1 https://github.com/emersion/hydroxide /opt/hydroxide
 
-## Patch for iOS to work with Hydroxide
-RUN sed -ie '310,313d' /opt/hydroxide/imap/mailbox.go
-
 WORKDIR /opt/hydroxide
 RUN CGO_ENABLED=1 go build -o /bin/hydroxide /opt/hydroxide/cmd/hydroxide
 
