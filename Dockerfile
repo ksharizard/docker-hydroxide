@@ -1,4 +1,4 @@
-FROM golang:1.22-alpine AS builder
+FROM golang:1.23-alpine AS builder
 
 RUN apk --update upgrade \
 && apk --no-cache --no-progress add git make gcc musl-dev \
@@ -6,7 +6,7 @@ RUN apk --update upgrade \
 RUN git clone --depth 1 https://github.com/emersion/hydroxide /opt/hydroxide
 
 WORKDIR /opt/hydroxide
-RUN CGO_ENABLED=1 CC=gcc go build -ldflags "-w -s" -o /bin/hydroxide /opt/hydroxide/cmd/hydroxide
+RUN CGO_ENABLED=1 go build -o /bin/hydroxide /opt/hydroxide/cmd/hydroxide
 
 
 FROM alpine:latest
