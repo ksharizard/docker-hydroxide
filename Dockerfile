@@ -1,9 +1,12 @@
 FROM golang:1.22-alpine AS builder
 
-RUN apk add --no-cache go
-COPY . /src
-WORKDIR /src
-RUN CGO_ENABLED=1 CC=gcc go build -ldflags "-w -s" -o /bin/hydroxide /src/cmd/hydroxide
+RUN apk --update upgrade \
+&& apk --no-cache --no-progress add git make gcc musl-dev \
+&& rm -rf /var/cache/apk
+RUN git clone --depth 1 https://github.com/emersion/hydroxide /opt/hydroxide
+
+WORKDIR /opt/hydroxide
+RUN CGO_ENABLED=1 CC=gcc go build -ldflags "-w -s" -o /bin/hydroxide /opt/hydroxide/cmd/hydroxide
 
 
 FROM alpine:latest
