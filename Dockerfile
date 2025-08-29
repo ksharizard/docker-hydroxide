@@ -1,9 +1,9 @@
 FROM golang:1.22-alpine AS builder
 
-RUN apk add --no-cache git gcc musl-dev
+RUN apk add --no-cache go
+COPY . /src
 WORKDIR /src
-COPY . .
-RUN CGO_ENABLED=1 go build -ldflags "-w -s" -o /bin/hydroxide ./cmd/hydroxide
+RUN CGO_ENABLED=1 CC=gcc go build -ldflags "-w -s" -o /bin/hydroxide /src/cmd/hydroxide
 
 
 FROM alpine:latest
